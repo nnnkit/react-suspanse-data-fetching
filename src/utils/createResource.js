@@ -14,18 +14,24 @@ const SUCCESS = 'success';
 
 export default function createResouce(thenable) {
   let status = PENDING;
-  let result = null;
-  let suspender = thenable.then(res => {
-    status = SUCCESS;
-    result = res;
-  });
+  let result = '';
+  let suspender = thenable.then(
+    res => {
+      status = SUCCESS;
+      result = res;
+    },
+    error => {
+      status = ERROR;
+      result = error;
+    },
+  );
   return {
     read() {
       switch (status) {
         case PENDING:
           throw suspender;
         case ERROR:
-          throw new Error(result);
+          throw result;
         default:
           return result;
           break;
@@ -33,3 +39,11 @@ export default function createResouce(thenable) {
     },
   };
 }
+
+// const userData = createResouce(
+//   fetch(`https://api.github.com/users/nnnkit`)
+//     .then(res => res.json())
+//     .then(user => user),
+// );
+
+// console.log(userData);
