@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import './App.css';
 import Button from './Button';
+import UserDetails from './UserDetails';
 
 const Wrapper = styled.div`
   width: 400px;
@@ -19,6 +20,7 @@ function App() {
         {['nnnkit', 'getify', 'gaeron'].map(user => (
           <Button>{user}</Button>
         ))}
+        <UserDetails />
       </div>
     </Wrapper>
   );
